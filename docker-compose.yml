@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  api:
+    container_name: "api-prisma"
+    build: .
+    ports:
+      - '3000:3000'
+    networks:
+      - prisma-app
+    depends_on:
+      - db
+  db:
+    container_name: "db-prisma"
+    image: mysql:8.0
+    restart: always
+    environment:
+      - MYSQL_DATABASE=mydb
+      - MYSQL_ROOT_PASSWORD=password
+    ports:
+      - '3306:3306'
+    networks:
+      - prisma-app
+
+networks:
+  prisma-app:
+    driver: bridge
